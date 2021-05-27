@@ -1,9 +1,6 @@
 package com.electronwill.nightconfig.core.conversion;
 
-import com.electronwill.nightconfig.core.Config;
-import com.electronwill.nightconfig.core.ConfigFormat;
-import com.electronwill.nightconfig.core.EnumGetMethod;
-import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.electronwill.nightconfig.core.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -163,12 +160,18 @@ public final class ObjectConverter {
                         } else {
                             destination.set(path, value.toString()); // if not supported, serialize it
                         }
+						if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
+							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+						}
                     } else if (field.isAnnotationPresent(ForceBreakdown.class) || !format.supportsType(valueType)) {
 						// We have to convert the value
 						destination.set(path, value);
 						Config converted = destination.createSubConfig();
 						convertToConfig(value, valueType, converted);
 						destination.set(path, converted);
+						if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
+							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+						}
 					} else if (value instanceof Collection) {
 						// Checks that the ConfigFormat supports the type of the collection's elements
 						Collection<?> src = (Collection<?>)value;
@@ -176,15 +179,24 @@ public final class ObjectConverter {
 						if (format.supportsType(bottomType)) {
 							// Everything is supported, no conversion needed
 							destination.set(path, value);
+							if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
+								((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+							}
 						} else {
 							// List of complex objects => the bottom elements need conversion
 							Collection<Object> dst = new ArrayList<>(src.size());
 							convertObjectsToConfigs(src, bottomType, dst, destination);
 							destination.set(path, dst);
+							if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
+								((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+							}
 						}
 					} else {
 						// Simple value
 						destination.set(path, value);
+						if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
+							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+						}
 					}
 				}
 			}
