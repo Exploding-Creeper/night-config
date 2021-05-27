@@ -161,7 +161,7 @@ public final class ObjectConverter {
                             destination.set(path, value.toString()); // if not supported, serialize it
                         }
 						if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
-							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).value());
 						}
                     } else if (field.isAnnotationPresent(ForceBreakdown.class) || !format.supportsType(valueType)) {
 						// We have to convert the value
@@ -170,7 +170,7 @@ public final class ObjectConverter {
 						convertToConfig(value, valueType, converted);
 						destination.set(path, converted);
 						if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
-							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).value());
 						}
 					} else if (value instanceof Collection) {
 						// Checks that the ConfigFormat supports the type of the collection's elements
@@ -180,7 +180,7 @@ public final class ObjectConverter {
 							// Everything is supported, no conversion needed
 							destination.set(path, value);
 							if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
-								((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+								((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).value());
 							}
 						} else {
 							// List of complex objects => the bottom elements need conversion
@@ -188,14 +188,14 @@ public final class ObjectConverter {
 							convertObjectsToConfigs(src, bottomType, dst, destination);
 							destination.set(path, dst);
 							if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
-								((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+								((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).value());
 							}
 						}
 					} else {
 						// Simple value
 						destination.set(path, value);
 						if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
-							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).comment());
+							((CommentedConfig) destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).value());
 						}
 					}
 				}
