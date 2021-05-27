@@ -87,7 +87,7 @@ configure(subprojects.findAll {it.name != "examples"}) {
 	}
 
 	signing {
-		sign publishing.publications.mavenJava
+		//sign publishing.publications.mavenJava
 	}
 }
 
