@@ -1,8 +1,7 @@
-![Night Config](logo.png)
+## NOTICE: This is a customized version of Night-Config intended for my own use!
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.electronwill.night-config/core.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.electronwill.night-config%22)
-[![Javadocs](http://javadoc.io/badge/com.electronwill.night-config/core.svg)](http://javadoc.io/doc/com.electronwill.night-config/core)
-[![Build Status](https://travis-ci.com/TheElectronWill/Night-Config.svg?branch=master)](https://travis-ci.com/TheElectronWill/Night-Config)
+### Changes between this one and the original
+* Added support for Comments when using Object-Converter
 
 # Introduction
 NightConfig is a powerful yet easy-to-use java configuration library, written in Java 8.
