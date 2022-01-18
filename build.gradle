@@ -72,16 +72,16 @@ configure(subprojects.findAll {it.name != "examples"}) {
 		repositories {
 			maven {
 				credentials {
-					username ossrhUser
-					password ossrhPassword
+					username System.getenv("MAVEN_USER")
+					password System.getenv("MAVEN_PASS")
 				}
-				url project.version.endsWith('SNAPSHOT') ? publishSnapshotUrl : publishReleaseUrl
+				url System.getenv("MAVEN_URL")
 			}
 		}
 	}
 
 	signing {
-		sign publishing.publications.mavenJava
+		//sign publishing.publications.mavenJava
 	}
 }
 

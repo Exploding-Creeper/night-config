@@ -1,9 +1,6 @@
 package com.electronwill.nightconfig.core.conversion;
 
-import com.electronwill.nightconfig.core.Config;
-import com.electronwill.nightconfig.core.ConfigFormat;
-import com.electronwill.nightconfig.core.EnumGetMethod;
-import com.electronwill.nightconfig.core.UnmodifiableConfig;
+import com.electronwill.nightconfig.core.*;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -186,6 +183,9 @@ public final class ObjectConverter {
 						// Simple value
 						destination.set(path, value);
 					}
+				}
+				if (field.isAnnotationPresent(SpecComment.class) && destination.configFormat().supportsComments()) {
+					((CommentedConfig)destination).setComment(AnnotationUtils.getPath(field), field.getAnnotation(SpecComment.class).value());
 				}
 			}
 			clazz = clazz.getSuperclass();
